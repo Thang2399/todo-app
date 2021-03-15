@@ -1,0 +1,168 @@
+:root{
+  /* --first-child: linear-gradient(to right, #6190e8, #a7bfe8); */
+  --first-child: #344E7D;
+  /* --first-child: linear-gradient(to left, #4e54c8, #8f94fb); */
+  --second-child: #2B364A;
+  --third-child: #5A667D;
+  --fourth-child: #1F2E4A;
+  --success: #52c234;
+  --danger: #DC281E;
+  --bg-cl: #141E30;
+  --text-cl: white;
+  --btn-cl: #A5CC82;
+  --box-shadow:  rgba(0, 0, 0, 0.5) 0px 3px 8px;
+  --box-shadow-app:  rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  --box-shadow-app-hover:  rgba(50, 50, 93, 0.5) 0px 50px 100px -20px, rgba(0, 0, 0, 0.5) 0px 30px 60px -30px, rgba(10, 37, 64, 0.5) 0px -2px 6px 0px inset;
+}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+div{display: block;}
+
+html{ font-size: 62.5%;}
+
+.App{
+  max-width: 800px;
+  width: 100%;
+  margin: 5rem auto;
+  padding: 2rem 1rem;
+
+  background-color: var(--bg-cl);
+  box-shadow: var(--box-shadow-app);
+  transition: 0.2s;
+
+  color: var(--text-cl);
+  font-size: 1.8rem;
+  text-align: center;
+  letter-spacing: 0.2rem;
+}
+
+.App:hover{
+  box-shadow: var(--box-shadow-app-hover);
+}
+
+h1{
+  width: 40%;
+  margin: 0 auto 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 4px solid white ;
+
+  font-size: 5rem;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+form{
+  /* background-color: yellow; */
+  width: 70%;
+  margin: 0 auto 1rem;
+  padding: 0 1.5rem;
+
+  /* display: flex;
+  justify-content: space-between; */
+}
+
+input, button{  font-size: 1.6rem;
+  font-family: inherit;
+  letter-spacing: 0.2rem;
+
+  border-radius: 0.5rem;
+  border: none;
+  outline: none;
+  height: 3.5rem;
+}
+
+input, .items-container{
+  width: 70%;
+  padding: 1rem 1.6rem;
+  margin-right: 1rem;
+}
+
+button{ 
+  padding: 0 1.6rem;
+  cursor: pointer;
+}
+
+.items-container{
+  width: 80%;
+  margin: 1rem auto;
+  /* padding: 2rem 3.5rem; */
+}
+
+article{
+    margin: 2rem auto;    
+    padding: 1rem 1.6rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+article:first-of-type{  margin-top: 0;}
+
+article:nth-of-type(n+1){
+  background: var(--first-child);
+}
+
+article:nth-of-type(2n+2){
+  background: var(--second-child);
+}
+
+article:nth-of-type(3n+3){
+  background: var(--third-child);
+}
+
+article:nth-of-type(4n+4){
+  background: var(--fourth-child);
+}
+
+p.item-name{
+  font-size: 2rem;
+  text-transform: capitalize;
+}
+
+.btn-container {
+    display: flex;}
+
+.btn-container button:first-of-type{
+  margin-right: 1rem;
+}
+
+.btn-container button{
+  padding: 0.5rem 1rem;
+  font-size: 1.4rem;
+  /* height: 2rem; */
+}
+
+@media screen and (min-width: 350px) and (max-width : 450px){
+  html{
+        overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+  .App{
+    width: 100%;
+  }
+  h1{
+    font-size: 3.5rem;
+    width: 60%;
+  }
+  form, .items-container{
+    width: 100% !important;
+  }
+}
