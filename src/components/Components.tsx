@@ -3,14 +3,22 @@ import React, {useState, useEffect} from 'react';
 import Notification from "./Notification";
 import ListItems from "./listItems/ListItems";
 import {ItemType, NotificationType} from "../types/propsType";
+import ListRemovedItems from "./listremovedItems/ListRemovedItems";
 
-const getLocalStorage: any = () => {
+const getLocalStorageListItems: any = () => {
     const listItems: string | null = localStorage.getItem('list');
     if (listItems) {
         // return JSON.parse(localStorage.getItem('list') || '{}')
-        
+
         // the ! is call "Non-null assertion operator" and it tells the compiler that the return below is not null
         return JSON.parse(localStorage.getItem('list')!)
+    } else return []
+}
+
+const getLocalStorageListRemovedItems: any = () => {
+    const listRemovedItems: string | null = localStorage.getItem('listRemovedItems');
+    if (listRemovedItems) {
+        return JSON.parse(localStorage.getItem('listRemovedItems')!);
     } else return []
 }
 
@@ -19,12 +27,13 @@ export default function Components(): JSX.Element {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editItemId, setEditItemId] = useState<string | null>(null);
     // const [listItems, setListItems] = useState<ItemType[]>([]);
-    const [listItems, setListItems] = useState<ItemType[]>(getLocalStorage);
+    const [listItems, setListItems] = useState<ItemType[]>(getLocalStorageListItems);
     const [notification, setNotification] = useState<NotificationType>({
         show: false,
         message: '',
         type: ''
     });
+    const [listRemovedItems, setListRemovedItems] = useState<ItemType[]>(getLocalStorageListRemovedItems)
 
     const showNotification = (show: boolean, message: string, type: string) => {
         setNotification({show, message, type});
@@ -67,9 +76,12 @@ export default function Components(): JSX.Element {
     }
 
     const removeItem = (id: string) => {
-        const removedItem = listItems.filter((item: any) => item.id !== id);
-        setListItems(removedItem);
-        showNotification(true, 'Removed Item', 'success');
+        const removedItem = listItems.find((item: any) => item.id === id);
+        if (removedItem) {
+            setListItems(listItems.filter((item: any) => item.id !== removedItem.id));
+            setListRemovedItems([...listRemovedItems, removedItem]);
+            showNotification(true, 'Removed Item', 'success');
+        }
     }
 
     const editItem = (id: string) => {
@@ -81,9 +93,18 @@ export default function Components(): JSX.Element {
         }
     }
 
+    const redoItem = (id: string) => {
+        const redoSingleItem = listRemovedItems.find((item: any) => item.id === id);
+        if (redoSingleItem) {
+            setListRemovedItems(listRemovedItems.filter((item: any) => item.id !== redoSingleItem.id));
+            setListItems([...listItems, redoSingleItem]);
+        }
+    }
+
     useEffect(() => {
         localStorage.setItem('list', JSON.stringify(listItems));
-    }, [listItems])
+        localStorage.setItem('listRemovedItems', JSON.stringify(listRemovedItems))
+    }, [listItems, listRemovedItems])
 
     return (
         <div>
@@ -104,6 +125,10 @@ export default function Components(): JSX.Element {
 
             {listItems.length > 0
                 ? <ListItems listItems={listItems} clearAll={clearAll} removeItem={removeItem} editItem={editItem}/>
+                : null}
+
+            {listRemovedItems.length > 0
+                ? <ListRemovedItems listRemovedItems={listRemovedItems} redoItem={redoItem}/>
                 : null}
         </div>
     );
